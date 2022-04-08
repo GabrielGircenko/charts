@@ -1,3 +1,5 @@
+package com.github.tehras.charts.line
+
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.Canvas
@@ -6,10 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import com.github.tehras.charts.line.LineChartData
-import com.github.tehras.charts.line.LineChartUtils
 import com.github.tehras.charts.line.LineChartUtils.calculateYAxisDrawableArea
 import com.github.tehras.charts.line.renderer.line.LineDrawer
 import com.github.tehras.charts.line.renderer.line.LineShader
@@ -57,6 +56,7 @@ fun MultiLineChart(
     /* val transitionAnimation = remember(lineChartData.points) { Animatable(initialValue = 0f) }
 
      LaunchedEffect(lineChartData.points) {
+
          transitionAnimation.snapTo(0f)
          transitionAnimation.animateTo(1f, animationSpec = animation)
      }
@@ -131,9 +131,37 @@ fun MultiLineChart(
                     }
                 }
 
-
             }
 
+            // Draw the X Axis line.
+            xAxisDrawer.drawAxisLine(
+                drawScope = this,
+                drawableArea = xAxisDrawableArea,
+                canvas = canvas
+            )
+
+            xAxisDrawer.drawAxisLabels(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = xAxisLabelsDrawableArea,
+                labels = lineChartData[0].points.map { it.label }
+            )
+
+
+            // Draw the Y Axis line.
+            yAxisDrawer.drawAxisLine(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = yAxisDrawableArea
+            )
+
+            yAxisDrawer.drawAxisLabels(
+                drawScope = this,
+                canvas = canvas,
+                drawableArea = yAxisDrawableArea,
+                minValue = lineChartData[0].minYValue,
+                maxValue = lineChartData[0].maxYValue
+            )
 
         }
     }
