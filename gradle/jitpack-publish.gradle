@@ -3,7 +3,7 @@ afterEvaluate {
     publications {
       release(MavenPublication) {
         from components.release
-        groupId = "com.github.pushkar.charts"
+        groupId = "com.github.pushkar-anand.charts"
         artifactId = module.getName()
       }
     }
